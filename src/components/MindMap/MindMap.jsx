@@ -5,6 +5,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import SearchIcon from '@mui/icons-material/Search';
 import { toast } from "react-toastify";
 import HistoryIcon from "@mui/icons-material/History";
 import Typography from "@mui/material/Typography";
@@ -92,13 +93,15 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "center",
 		alignItems: "center",
 		flexWrap: "wrap",
-		gap: "0.5rem",
+		gap: "2rem",
 		marginBottom: "0.5rem",
 	},
 	search_container: {
 		display: "flex",
-		flexWrap: "wrap",
+		flexWrap: "nowrap",
 		justifyContent: "center",
+		gap: 3,
+		paddingLeft: '3px'
 	},
 }));
 
@@ -297,10 +300,11 @@ const MindMap = () => {
 				filterable: true,
 				renderCell: (params) => (
 					// TODO: Add color for diffrent types
+					// DONE => Implemented different colors for different types
 					<Chip
 						label={params.row.metadata.source_type}
 						variant="outlined"
-						color="primary"
+						color={getTypeColor(params.row.metadata.source_type)}
 						size="small"
 					/>
 				),
@@ -355,6 +359,28 @@ const MindMap = () => {
 		],
 		[hasSearched]
 	);
+
+	/**
+	 * Function to return the colour scheme of the data-type of the mindmap table
+	 * @param dataType Takes in the type of the data entry of the table
+	 * @returns colour {example primary, secondary} accroding to the type of data
+	 */
+	const getTypeColor = (dataType) => {
+		switch (dataType) {
+			case 'TEXT':
+				return 'primary'
+			case 'LINK':
+				return 'secondary'
+			case 'CSV':
+				return 'info'
+			case 'PDF':
+				return 'success'
+			case 'EPUB':
+				return 'string'
+			default:
+				return 'primary';
+		}
+	}
 
 	const handleOpenEditDialog = async (data) => {
 		setEditData(data);
@@ -466,7 +492,12 @@ const MindMap = () => {
 					className={classes.search_container}
 				>
 					<TextField
-						label="Search"
+						label={
+							<Box sx={{ display: 'flex', alignItems: 'center' }}>
+							  <SearchIcon />
+							  <span style={{ marginLeft: '8px' }}>Search</span>
+							</Box>
+						}
 						variant="outlined"
 						error={errors?.q?.type}
 						helperText={errors?.q?.message}
@@ -479,9 +510,9 @@ const MindMap = () => {
 					<TextField
 						select
 						label="Results"
-            defaultValue={3}
-            sx={{ m: 1, minWidth: 120 }}
-            size="small"
+						defaultValue={3}
+						sx={{ m: 1, minWidth: 120 }}
+						size="small"
 						{...register("numResults")}
 					>
 						{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50].map((value) => (

@@ -223,6 +223,7 @@ const AddDataDialog = ({ openAddDialog, setOpenAddDialog, setData }) => {
 						gap: 5,
 						flexWrap: "wrap",
 						flexDirection: "row",
+						marginLeft: '0.85rem'
 					}}
 				>
 					{[TEXT, PDF, EPUB, LINK, CSV].map((option) => (
@@ -408,6 +409,11 @@ const AddDataDialog = ({ openAddDialog, setOpenAddDialog, setData }) => {
 					errors?.read_more_link?.message ??
 					"The Source or Read More link user gets at the end of the message"
 				}
+				FormHelperTextProps={{
+					sx: {
+						margin: 0
+					},
+				}}
 			/>
 			{is_god && buckets.length ? (
 				<>
@@ -416,8 +422,8 @@ const AddDataDialog = ({ openAddDialog, setOpenAddDialog, setData }) => {
 						fullWidth
 						{...register("bucket_id")}
 						label="Select Bucket"
-            defaultValue=""
-            helperText="Bucket in which this data will be added"
+						defaultValue=""
+						helperText="Bucket in which this data will be added"
 					>
 						<MenuItem value="">No Bucket</MenuItem>
 						{buckets.map((bucket) => (
@@ -431,8 +437,8 @@ const AddDataDialog = ({ openAddDialog, setOpenAddDialog, setData }) => {
 						select
 						{...register("action_id")}
 						label="Business Action"
-            defaultValue={""}
-            helperText="Action to use when this vector is used for an answer"
+						defaultValue={""}
+						helperText="Action to use when this vector is used for an answer"
 					>
 						<MenuItem value="">No Action</MenuItem>
 						{businessActions.map((businessAction) => (
