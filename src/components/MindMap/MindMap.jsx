@@ -300,7 +300,7 @@ const MindMap = () => {
 				filterable: true,
 				renderCell: (params) => (
 					// TODO: Add color for diffrent types
-					// DONE => Implemented different colors for different types
+					// DONE => Implemented different colors for different types  
 					<Chip
 						label={params.row.metadata.source_type}
 						variant="outlined"
